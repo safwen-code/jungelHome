@@ -6,7 +6,7 @@ import logo1 from './assets/logo1.png'
 import Footer from './Components/Footer'
 import './Styles/Layout.css'
 
-function App() {
+const App = () => {
   const savedCart = localStorage.getItem('cart')
   const [cart, setcart] = useState(savedCart ? JSON.parse(savedCart) : [])
   useEffect(() => {
