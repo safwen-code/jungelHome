@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
+  Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
   Grid,
@@ -10,11 +12,23 @@ import {
 
 import { plantList } from '../data/PlantList'
 
-const ShoppingCarts = () => {
+const ShoppingCarts = ({ card, setcard }) => {
+  const hundelFavories = (name, price) => {
+    const currentPlantSaved = card.find((plant) => plant.name !== name)
+    if (currentPlantSaved) {
+      const filtredplant = card.filter((plant) => plant.name !== name)
+      setcard([
+        ...filtredplant,
+        { name, price, amout: currentPlantSaved.amount },
+      ])
+    } else {
+      setcard([...card, { name, price, amount: 1 }])
+    }
+  }
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} mt={2}>
       {plantList.map((plant) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={plant.name}>
+        <Grid item xs={12} sm={6} md={4} lg={3} key={plant.id}>
           <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
               <CardMedia
@@ -27,11 +41,15 @@ const ShoppingCarts = () => {
                 <Typography gutterBottom variant="h5" component="div">
                   {plant.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
-                </Typography>
               </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  onClick={() => hundelFavories(plant.name, plant.price)}
+                >
+                  add favorie
+                </Button>
+              </CardActions>
             </CardActionArea>
           </Card>
         </Grid>
