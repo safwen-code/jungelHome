@@ -40,33 +40,35 @@ const ShoppingCarts = ({ card, setcard }) => {
         activeCategory={activeCategory}
       />
       <Grid container spacing={2} mt={2}>
-        {plantList.map((plant) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={plant.id}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={plant.cover}
-                  alt={plant.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {plant.name}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    onClick={() => hundelFavories(plant.name, plant.price)}
-                  >
-                    add favorie
-                  </Button>
-                </CardActions>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
+        {plantList.map((plant) =>
+          !activeCategory || activeCategory === plant.category ? (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={plant.id}>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={plant.cover}
+                    alt={plant.name}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {plant.name}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      onClick={() => hundelFavories(plant.name, plant.price)}
+                    >
+                      add favorie
+                    </Button>
+                  </CardActions>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ) : null,
+        )}
       </Grid>
     </>
   )
