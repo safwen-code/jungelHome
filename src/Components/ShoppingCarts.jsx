@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -12,7 +13,7 @@ import {
 import { plantList } from '../data/PlantList'
 import Categori from './Categori'
 
-const ShoppingCarts = ({ card, setcard }) => {
+const ShoppingCarts = ({ card, setcard, isOpen }) => {
   const [activeCategory, setactiveCategory] = useState('')
 
   const categories = plantList.reduce(
@@ -34,13 +35,19 @@ const ShoppingCarts = ({ card, setcard }) => {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        marginLeft: isOpen ? { md: '240px' } : '0',
+        transition: 'margin 0.3s',
+        padding: 2,
+      }}
+    >
       <Categori
         categories={categories}
         setactiveCategory={setactiveCategory}
         activeCategory={activeCategory}
       />
-      <Grid container spacing={2} mt={2}>
+      <Grid container spacing={2}>
         {plantList.map((plant) =>
           !activeCategory || activeCategory === plant.category ? (
             <Grid item xs={12} sm={6} md={4} lg={3} key={plant.id}>
@@ -62,7 +69,7 @@ const ShoppingCarts = ({ card, setcard }) => {
                       size="small"
                       onClick={() => handleFavorites(plant.name, plant.price)}
                     >
-                      add favorite
+                      add to Panier
                     </Button>
                   </CardActions>
                 </CardActionArea>
@@ -71,7 +78,7 @@ const ShoppingCarts = ({ card, setcard }) => {
           ) : null,
         )}
       </Grid>
-    </>
+    </Box>
   )
 }
 
