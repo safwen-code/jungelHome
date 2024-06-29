@@ -9,29 +9,30 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-
 import { plantList } from '../data/PlantList'
 import Categori from './Categori'
 
 const ShoppingCarts = ({ card, setcard }) => {
   const [activeCategory, setactiveCategory] = useState('')
+
   const categories = plantList.reduce(
     (acc, plant) =>
       acc.includes(plant.category) ? acc : acc.concat(plant.category),
     [],
   )
-  const hundelFavories = (name, price) => {
-    const currentPlantSaved = card.find((plant) => plant.name !== name)
+
+  const handleFavorites = (name, price) => {
+    const currentPlantSaved = card.find((plant) => plant.name === name)
     if (currentPlantSaved) {
-      const filtredplant = card.filter((plant) => plant.name !== name)
-      setcard([
-        ...filtredplant,
-        { name, price, amout: currentPlantSaved.amount },
-      ])
+      const updatedCard = card.map((plant) =>
+        plant.name === name ? { ...plant, amount: plant.amount + 1 } : plant,
+      )
+      setcard(updatedCard)
     } else {
       setcard([...card, { name, price, amount: 1 }])
     }
   }
+
   return (
     <>
       <Categori
@@ -59,9 +60,9 @@ const ShoppingCarts = ({ card, setcard }) => {
                   <CardActions>
                     <Button
                       size="small"
-                      onClick={() => hundelFavories(plant.name, plant.price)}
+                      onClick={() => handleFavorites(plant.name, plant.price)}
                     >
-                      add favorie
+                      add favorite
                     </Button>
                   </CardActions>
                 </CardActionArea>
